@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_{{snakeCase name}}_root"
+              name="{{titleCase name}}"
+              sequence="10"/>
+
+    <menuitem id="menu_{{snakeCase name}}_main"
+              name="{{titleCase name}}"
+              parent="menu_{{snakeCase name}}_root"
+              action="action_{{snakeCase name}}_view"
+              sequence="10"/>
+</odoo>

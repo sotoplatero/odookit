@@ -1,0 +1,16 @@
+from odoo import models, fields, api
+
+class {{pascalCase name}}Model(models.Model):
+    _name = '{{name}}.model'
+    _description = '{{summary}}'
+
+    name = fields.Char(string='Name', required=True)
+    description = fields.Text(string='Description')
+    active = fields.Boolean(default=True)
+
+    @api.model
+    def create(self, vals):
+        return super({{pascalCase name}}Model, self).create(vals)
+
+    def write(self, vals):
+        return super({{pascalCase name}}Model, self).write(vals)

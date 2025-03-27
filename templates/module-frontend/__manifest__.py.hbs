@@ -1,0 +1,26 @@
+{
+    'name': '{{name}}',
+    'version': '16.0.1.0.0',
+    'category': 'Custom',
+    'summary': 'Custom frontend module',
+    'sequence': 100,
+    'license': 'LGPL-3',
+    'author': '',
+    'website': '',
+    'depends': ['base', 'web'],
+    'data': [
+        'views/assets.xml',
+    ],
+    'qweb': [
+        'static/src/xml/templates.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            '{{name}}/static/src/js/**/*',
+            '{{name}}/static/src/css/**/*',
+        ],
+    },
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}
