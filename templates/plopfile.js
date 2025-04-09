@@ -19,44 +19,43 @@ export default function (plop) {
     // Project generator
     plop.setGenerator('project', {
         description: 'Create a new Odoo project',
-        prompts: [],
+        prompts: [], // Las preguntas las maneja el comando
         actions: [
             {
                 type: 'addMany',
-                destination: '{{name}}',
+                destination: '{{projectDir}}',
                 base: 'project',
                 templateFiles: 'project/**/*',
                 globOptions: {
                     dot: true
-                },
-                data: {
-                    odooPort: '{{odooPort}}',
-                    odooImage: '{{odooImage}}'
                 }
-            }
-        ]
-    });
-
-    // Frontend module generator
-    plop.setGenerator('module-frontend', {
-        description: 'Create a new frontend Odoo module',
-        prompts: [],
-        actions: [
+            },
             {
-                type: 'addMany',
-                destination: '{{name}}',
-                base: 'module-frontend',
-                templateFiles: 'module-frontend/**/*',
-                globOptions: {
-                    dot: true
-                }
+                type: 'add',
+                path: '{{projectDir}}/addons/.gitkeep',
+                template: ''
+            },
+            {
+                type: 'add',
+                path: '{{projectDir}}/backups/.gitkeep',
+                template: ''
+            },
+            {
+                type: 'add',
+                path: '{{projectDir}}/config/.gitkeep',
+                template: ''
+            },
+            {
+                type: 'add',
+                path: '{{projectDir}}/data/.gitkeep',
+                template: ''
             }
         ]
     });
 
     // Backend module generator
     plop.setGenerator('module-backend', {
-        description: 'Create a new backend Odoo module',
+        description: 'Create a new Odoo backend module',
         prompts: [],
         actions: [
             {
@@ -64,6 +63,23 @@ export default function (plop) {
                 destination: '{{name}}',
                 base: 'module-backend',
                 templateFiles: 'module-backend/**/*',
+                globOptions: {
+                    dot: true
+                }
+            }
+        ]
+    });
+
+    // Frontend module generator
+    plop.setGenerator('module-frontend', {
+        description: 'Create a new Odoo frontend module',
+        prompts: [],
+        actions: [
+            {
+                type: 'addMany',
+                destination: '{{name}}',
+                base: 'module-frontend',
+                templateFiles: 'module-frontend/**/*',
                 globOptions: {
                     dot: true
                 }
