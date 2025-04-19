@@ -1,11 +1,11 @@
 {
-  "name": "odx",
+  "name": "odv",
   "version": "0.0.1",
   "description": "CLI tool for Odoo development",
   "main": "bin/index.js",
   "type": "module",
   "bin": {
-    "odx": "./bin/index.js"
+    "odv": "./bin/index.js"
   },
   "scripts": {
     "start": "node --no-deprecation ./bin/index.js",
