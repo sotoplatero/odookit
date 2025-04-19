@@ -37,11 +37,6 @@ export default function (plop) {
             },
             {
                 type: 'add',
-                path: '{{projectDir}}/backups/.gitkeep',
-                template: ''
-            },
-            {
-                type: 'add',
                 path: '{{projectDir}}/config/.gitkeep',
                 template: ''
             },

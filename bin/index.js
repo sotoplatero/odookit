@@ -9,6 +9,7 @@ import { newModuleCommand } from '../src/commands/new-module.js';
 import { addModuleCommand } from '../src/commands/add-module.js';
 import { updateModuleCommand } from '../src/commands/update-module.js';
 import { aiModuleCommand } from '../src/commands/ai-module.js';
+import { backupProjectCommand } from '../src/commands/backup-project.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -55,5 +56,12 @@ program
   .option('-t, --type <type>', 'Module type (backend/frontend)', 'backend')
   .option('-d, --description <description>', 'Module description/requirements')
   .action(aiModuleCommand);
+
+program
+  .command('backup')
+  .description('Create a backup of the current Odoo project using Odoo backup utility')
+  .option('-n, --name <name>', 'Project name (defaults to current directory name)')
+  .option('-u, --url <url>', 'Odoo project URL (required)')
+  .action(backupProjectCommand);
 
 program.parse();

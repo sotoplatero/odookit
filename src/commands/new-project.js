@@ -98,6 +98,12 @@ export async function newProjectCommand(options) {
           }
           return true;
         }
+      },
+      {
+        type: 'confirm',
+        name: 'runAfterCreate',
+        message: 'Do you want to run the project after creation?',
+        default: false
       }
     ]);
 
@@ -154,6 +160,24 @@ Next steps:
 
 Happy coding! 🚀
 `);
+
+    // Ejecutar el proyecto si se solicitó
+    if (moreAnswers.runAfterCreate) {
+      console.log('🚀 Starting the project...');
+      try {
+        await execAsync('docker compose up -d', execOptions);
+        console.log(`
+✅ Project is running!
+- Web Interface: http://localhost:${moreAnswers.odooPort}
+- Database Manager: http://localhost:${moreAnswers.odooPort}/web/database/manager
+
+To stop the project, run:
+cd ${answers.name} && docker compose down
+`);
+      } catch (error) {
+        console.error('❌ Error starting the project:', error.message);
+      }
+    }
 
   } catch (error) {
     console.error('❌ Error:', error.message);
