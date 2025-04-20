@@ -35,8 +35,41 @@ export async function addModuleCommand(repository, options) {
       repository = answers.repository;
     }
 
+    // Listar las ramas disponibles en el repositorio
+    let branches = [];
+    try {
+      const { stdout } = await execAsync(`git ls-remote --heads ${repository}`);
+      branches = stdout
+      .split('\n')
+      .map(line => {
+        const match = line.match(/refs\/heads\/(.+)$/);
+        return match ? match[1] : null;
+      })
+      .filter(Boolean);
+    } catch (error) {
+      console.error('❌ Error fetching branches:', error.message);
+      return;
+    }
+
     // Obtener el nombre del módulo del repositorio
-    const moduleName = path.basename(repository, '.git');
+    const defaultModuleName = path.basename(repository, '.git');
+    const answers = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'moduleName',
+        message: 'Module folder name:',
+        default: defaultModuleName,
+      },
+      {
+        type: 'list',
+        name: 'branch',
+        message: 'Select the branch:',
+        choices: branches.length ? branches : ['main', 'master'],
+        default: branches.includes('main') ? 'main' : 'master',
+      }
+    ]);
+    const moduleName = answers.moduleName;
+    const branch = options.branch || answers.branch;
 
     // Verificar que el módulo no existe
     const moduleDir = path.join('addons', moduleName);
@@ -56,7 +89,6 @@ export async function addModuleCommand(repository, options) {
     console.log('🔧 Adding module as git subtree...');
     const prefix = `addons/${moduleName}`;
     const targetRepo = options.repository || repository;
-    const branch = options.branch ? `-b ${options.branch}` : '';
 
     await execAsync(`git subtree add --prefix ${prefix} ${targetRepo} ${branch} --squash`);
 
@@ -67,7 +99,7 @@ Module information:
 - Name: ${moduleName}
 - Location: ${moduleDir}
 - Repository: ${targetRepo}
-${options.branch ? `- Branch: ${options.branch}` : ''}
+- Branch: ${branch}
 
 To update the module later:
 odookit update:module ${moduleName}

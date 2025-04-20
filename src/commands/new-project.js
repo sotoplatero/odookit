@@ -33,16 +33,16 @@ export async function newProjectCommand(options) {
 
     const projectDir = path.resolve(process.cwd(), answers.name);
 
-    // Verificar si el directorio ya existe
+    // Verify if the directory already exists
     if (fs.existsSync(projectDir)) {
       console.error(`❌ Error: Directory ${answers.name} already exists`);
       return;
     }
 
-    // Encontrar el primer puerto disponible
+    // Find the first available port
     const availablePort = await findAvailablePort();
 
-    // Preguntar por la imagen y el puerto
+    // Ask for the image and port
     const moreAnswers = await inquirer.prompt([
       {
         type: 'list',
@@ -107,12 +107,12 @@ export async function newProjectCommand(options) {
       }
     ]);
 
-    // Determinar la imagen de Docker
+    // Determine the Docker image
     const odooImage = moreAnswers.odooType === 'enterprise' 
       ? `odoo/odoo-enterprise:${moreAnswers.odooVersion}`
       : `odoo:${moreAnswers.odooVersion}`;
 
-    // Combinar todas las respuestas
+    // Combine all answers
     const finalAnswers = {
       ...answers,
       ...moreAnswers,
@@ -121,12 +121,13 @@ export async function newProjectCommand(options) {
       projectDir
     };
 
-    // Usar plop para generar el proyecto
+    // Use plop to generate the project
     const plop = await nodePlop(path.resolve(__dirname, '../../templates/plopfile.js'));
     const generator = plop.getGenerator('project');
     await generator.runActions(finalAnswers);
 
-    // Inicializar git
+
+    // Initialize git
     console.log('🔧 Initializing git repository...');
     const execOptions = {
       cwd: projectDir,
@@ -161,7 +162,7 @@ Next steps:
 Happy coding! 🚀
 `);
 
-    // Ejecutar el proyecto si se solicitó
+    // Run the project if requested
     if (moreAnswers.runAfterCreate) {
       console.log('🚀 Starting the project...');
       try {

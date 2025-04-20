@@ -3,31 +3,51 @@ services:
     image: {{odooImage}}
     depends_on:
       - db
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo      
     ports:
       - "{{odooPort}}:8069"
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
-    environment:
-      - HOST=db
-      - USER=odoo
-      - PASSWORD=odoo
     restart: always
+    networks:
+      - custom_network
 
   db:
-    image: postgres:15
+    image: postgres:17
     environment:
-      - POSTGRES_DB=odoo
+      - POSTGRES_DB=postgres
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
     restart: always
+    networks:
+      - custom_network
+
+
+  sqlpad:
+    image: sqlpad/sqlpad:latest
     ports:
-      - "{{dbPort}}:5432"
+      - "3000:3000"
+    environment:
+      - SQLPAD_ADMIN=admin@example.com
+      - SQLPAD_ADMIN_PASSWORD=admin
+    volumes:
+      - sqlpad-data:/var/lib/sqlpad
+    networks:
+      - custom_network
 
 volumes:
   odoo-web-data:
   odoo-db-data:
+  sqlpad-data:
+
+networks:
+  custom_network:
+    name: ${NETWORK_NAME:-odoo_network}

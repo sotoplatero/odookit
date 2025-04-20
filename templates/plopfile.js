@@ -35,16 +35,6 @@ export default function (plop) {
                 path: '{{projectDir}}/addons/.gitkeep',
                 template: ''
             },
-            {
-                type: 'add',
-                path: '{{projectDir}}/config/.gitkeep',
-                template: ''
-            },
-            {
-                type: 'add',
-                path: '{{projectDir}}/data/.gitkeep',
-                template: ''
-            }
         ]
     });
 
@@ -75,6 +65,23 @@ export default function (plop) {
                 destination: '{{name}}',
                 base: 'module-frontend',
                 templateFiles: 'module-frontend/**/*',
+                globOptions: {
+                    dot: true
+                }
+            }
+        ]
+    });
+
+    // Docker setup generator
+    plop.setGenerator('docker-setup', {
+        description: 'Add Docker setup to an Odoo module',
+        prompts: [],
+        actions: [
+            {
+                type: 'addMany',
+                destination: '{{cwd}}/docker',
+                base: 'module-docker',
+                templateFiles: 'module-docker/**/*',
                 globOptions: {
                     dot: true
                 }
