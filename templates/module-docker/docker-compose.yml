@@ -1,12 +1,9 @@
-version: '3.7'
 
 services:
-  odoo:
+  web:
     image: odoo:{{odooVersion}}
     depends_on:
       - db
-    ports:
-      - "8069:8069"
     volumes:
       - ../:/mnt/extra-addons/{{moduleName}}
       - odoo-data:/var/lib/odoo
@@ -17,9 +14,8 @@ services:
       - PASSWORD=odoo
       - DB_NAME=odoo
     networks:
-      - odoo_network
+      - custom_network
     restart: always
-
   db:
     image: postgres:{{postgresVersion}}
     environment:
@@ -30,13 +26,12 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data/pgdata
     networks:
-      - odoo_network
+      - custom_network
     restart: always
 
 volumes:
   odoo-data:
   postgres-data:
-
 networks:
-  odoo_network:
-    driver: bridge 
+  custom_network:
+    name: ${NETWORK_NAME:-odoo_network}

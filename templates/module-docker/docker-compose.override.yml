@@ -1,0 +1,5 @@
+
+services:
+  web:
+    ports:
+      - "8069:8069"

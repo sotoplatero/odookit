@@ -20,6 +20,7 @@ This directory contains the Docker configuration for running this Odoo module in
    ```bash
    docker compose down
    ```
+4. To customize the docker compose configuration, use the docker-compose.override.yml file
 
 ## Configuration
 
