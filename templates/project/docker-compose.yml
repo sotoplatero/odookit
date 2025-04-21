@@ -30,19 +30,6 @@ services:
     networks:
       - custom_network
 
-
-  sqlpad:
-    image: sqlpad/sqlpad:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - SQLPAD_ADMIN=admin@example.com
-      - SQLPAD_ADMIN_PASSWORD=admin
-    volumes:
-      - sqlpad-data:/var/lib/sqlpad
-    networks:
-      - custom_network
-
 volumes:
   odoo-web-data:
   odoo-db-data:

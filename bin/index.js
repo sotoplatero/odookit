@@ -11,6 +11,7 @@ import { updateModuleCommand } from '../src/commands/update-module.js';
 import { aiModuleCommand } from '../src/commands/ai-module.js';
 import { backupProjectCommand } from '../src/commands/backup-project.js';
 import { addDockerCommand } from '../src/commands/add-docker.js';
+import { addSubmoduleCommand } from '../src/commands/add-submodule.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -69,5 +70,11 @@ program
   .command('add:docker')
   .description('Add a docker setup to an Odoo module')
   .action(addDockerCommand);
+
+program
+  .command('add:submodule')
+  .description('Add a Git submodule for an addon')
+  .option('-r, --repository <repository>', 'Git repository URL')
+  .action(addSubmoduleCommand);
 
 program.parse();
